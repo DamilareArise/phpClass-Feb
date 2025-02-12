@@ -1,0 +1,54 @@
+Table Relationship
+1. one-to-one Relationship
+user_table:profile_table
+2. one-to-many Relationship
+profile_table:transaction_table
+3. many-to-many Relationship
+profile_table:order_table:transaction_table
+
+
+User Table
+User_Id (primary key)	Fullname	Email	Password 
+1	Ade Ola	ola@gmail.com
+123
+2	Dami Dami	dami@gmail.com
+234
+
+Profile Table
+Profile_Id (primary key)	Gender 	Address 	Phone 	User_id(Foreign Key)
+1	M	Osogbo	2345	2
+				
+
+
+Transaction Table
+Transaction_id	Type	Amount 	Profile_id (Foreign key)
+1	Credit	2456	1
+2	Debit	1223	1
+
+
+Order table 
+Order_Id	Product	Transaction_id	Profile_id
+1	ewa	    2	1
+2	rice	2	1
+
+
+
+
+SQL sub langueges
+
+1. DDL -> Data Definition Language
+e.g:
+    i. CREATE DATABASE phpclass_db;
+    ii. DROP DATABASE phpclass_db;
+    iii. DROP TABLE blog;
+    iv. CREATE TABLE blog_table(
+            id INT(4) PRIMARY KEY AUTO_INCREMENT, 
+            title VARCHAR(255),
+            category VARCHAR(100),
+            author VARCHAR(100),
+            content TEXT,
+            date_created DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+
+
+4 0000000-9999999

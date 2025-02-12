@@ -55,8 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 </div>
 
-    <script>
+    <!-- <script>
         window.location.href = "https://edu.sqi.ng";
-    </script>
+    </script> -->
 
 <?php require 'footer.php' ?>
