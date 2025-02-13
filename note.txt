@@ -34,7 +34,7 @@ Order_Id	Product	Transaction_id	Profile_id
 
 
 
-SQL sub langueges
+SQL sub languages
 
 1. DDL -> Data Definition Language
 e.g:
@@ -49,6 +49,13 @@ e.g:
             content TEXT,
             date_created DATETIME DEFAULT CURRENT_TIMESTAMP
         );
+    v. TRUNCATE blog_table;
+    vi. a. ALTER TABLE blog_table CHANGE author creator VARCHAR(50);
+        b. ALTER TABLE blog_table RENAME TO blog;
+        c. ALTER TABLE blog ADD likes INT;
+        d. ALTER TABLE blog DROP COLUMN likes;
 
-
-4 0000000-9999999
+2. DML => Data Manipulation language
+    i. INSERT INTO blog_table (title, author, category, content) VALUES('Blog 1', 'author 1', 'category 1', 'content 1');
+    ii. UPDATE blog_table SET content = 'Very demure', author = 'Mr Abiodun' WHERE id = 2;
+    iii. DELETE FROM `blog_table` WHERE id = 1;
