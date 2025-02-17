@@ -1,14 +1,56 @@
 <?php
-$title = '';
+require 'database.php';
+
+$errors = [
+    'title'=>"<script>alert('XSS')</script>",
+    'author'=>"<script>alert('XSS')</script>",
+    'category'=>'',
+    'content'=> ''
+];
+
+$title = "";
 $author = '';
 $category = '';
 $content = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = htmlspecialchars($_POST['title']);
-    $author = htmlspecialchars($_POST['author']);
-    $category = htmlspecialchars($_POST['category']);
-    $content = htmlspecialchars($_POST['content']);
-    echo $title . ' ' . $author . ' ' . $category . ' ' . $content;
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $author = mysqli_real_escape_string($conn, $_POST['author']);
+    $category = mysqli_real_escape_string($conn, $_POST['category']);
+    $content = mysqli_real_escape_string($conn, $_POST['content']);
+    // echo $title . ' ' . $author . ' ' . $category . ' ' . $content;
+
+    if(empty($title)){
+        $errors['title']  = 'Title required';
+    }
+    else if (empty($author)){
+        $errors['author']  = 'Author required';
+    }
+    else if (empty($category)){
+        $errors['category']  = 'Category required';
+    }
+    else if(empty($content)){
+        $errors['content']  = 'Content required';
+    }
+    else{
+
+        $sql = "INSERT INTO blog(title, author, category, content) VALUES('$title', '$author', '$category', '$content')";
+    
+        $query = mysqli_query($conn, $sql);
+        if($query){
+            echo 'Blog added succesfully';
+
+            $title = '';
+            $author = '';
+            $category = '';
+            $content = '';
+
+        }else{
+            echo 'Failed to add blog';
+        }
+    }
+    
+
 }
 ?>
 
@@ -23,8 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             placeholder="Title" 
             class="form-control /shadow-none mb-2" 
             name="title" 
-            value="<?php echo htmlspecialchars($title); ?>"
+            value="<?php echo ($title); ?>"
         >
+        <small class="d-block mb-2 text-danger"> <?php echo htmlspecialchars($errors['title']) ?></small>
         <input 
             type="text" 
             placeholder="Author" 
@@ -32,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             name="author"
             value="<?php echo htmlspecialchars($author); ?>"
         > 
+        <small class="d-block mb-2 text-danger"> <?php echo htmlspecialchars($errors['author']) ?> </small>
         <select 
             name="category" 
             id="" 
@@ -42,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="fashion">Fashion</option>
             <option value="sport">Sport</option>
         </select>
+        <small class="d-block mb-2 text-danger"><?php echo htmlspecialchars($errors['category']) ?></small>
 
         <textarea 
         name="content" 
@@ -50,6 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         class="form-control mb-2"
 
         ><?php echo htmlspecialchars($content); ?></textarea>
+        <small class="d-block mb-2 text-danger"><?php echo htmlspecialchars($errors['content']) ?></small>
 
         <button class="btn btn-primary w-100 mb-2" type="submit">Post</button>
     </form>
