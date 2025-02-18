@@ -1,5 +1,27 @@
 <?php
-    require 'getBlog.php'
+    // require 'getBlog.php';
+    require 'database.php';
+
+    $sql = 'SELECT * FROM blog';
+    $query = mysqli_query($conn, $sql);
+    $blogs = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
+
+
+    $errors = [
+        'email'=>''
+    ];
+
+    $email = '';
+    if($_SERVER['REQUEST_METHOD'] === 'POST' ){
+        $email =  htmlspecialchars($_POST['email']);
+        if(empty($email)){
+            $errors['email'] = 'Please enter your email';
+        }else{
+            echo $email;
+        }
+
+    }
 ?>
 
 <?php require 'nav.php' ?>
@@ -20,7 +42,7 @@
                         <h5 class="card-title"><?php echo $blog['title']; ?></h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">By <?php echo $blog['author']; ?></h6>
                         <p class="card-text mb-1"><?php echo $blog['content'] ?></p>
-                        <small class="fw-medium mb-4"><?php echo $blog['date'] ?></small>
+                        <small class="fw-medium mb-4"><?php echo $blog['date_created'] ?></small>
                         <a href="#" class="d-block card-link">Read more</a>
                     </div>
                 </div>
@@ -29,6 +51,15 @@
             <?php } ?>    
         </div>
 
+    </section>
+
+    <section class="container" style="min-height: 40dvh;">
+            <form action="" method="POST">
+                <input type="text" placeholder="Email" name="email" value="<?php echo $email ?>">
+                <small><?php echo htmlspecialchars($errors['email']) ?></small>
+
+                <button type="submit"> Subscribe</button>
+            </form>
     </section>
     
 

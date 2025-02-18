@@ -2,11 +2,13 @@
 require 'database.php';
 
 $errors = [
-    'title'=>"<script>alert('XSS')</script>",
-    'author'=>"<script>alert('XSS')</script>",
+    'title'=>"",
+    'author'=>"",
     'category'=>'',
     'content'=> ''
 ];
+
+$alert =  '';
 
 $title = "";
 $author = '';
@@ -14,7 +16,7 @@ $category = '';
 $content = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $title = $_POST['title'];
     $author = mysqli_real_escape_string($conn, $_POST['author']);
     $category = mysqli_real_escape_string($conn, $_POST['category']);
     $content = mysqli_real_escape_string($conn, $_POST['content']);
@@ -38,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
         $query = mysqli_query($conn, $sql);
         if($query){
-            echo 'Blog added succesfully';
+            $alert = '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Blog added successfully!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
 
             $title = '';
             $author = '';
@@ -47,10 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         }else{
             echo 'Failed to add blog';
+            $alert = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Failed to add blog!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+
         }
     }
-    
-
 }
 ?>
 
@@ -59,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php require 'nav.php' ?>
 <div class="container col-md-5 border border-primary my-5 p-3">
     <form action="" method="POST">
+        <?php echo $alert ?>
         <h3 class="text-center">Create Post</h3>
         <input 
             type="text" 
