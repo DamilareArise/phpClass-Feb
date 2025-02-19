@@ -38,6 +38,7 @@
 
             <div class="blog-card col-md-4 align-content-center">
                 <div class="card m-auto">
+                    <img src="" alt="blog-img" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $blog['title']; ?></h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">By <?php echo $blog['author']; ?></h6>
@@ -53,7 +54,7 @@
 
     </section>
 
-    <section class="container" style="min-height: 40dvh;">
+    <section class="container my-5" style="min-height: 40dvh;">
             <form action="" method="POST">
                 <input type="text" placeholder="Email" name="email" value="<?php echo $email ?>">
                 <small><?php echo htmlspecialchars($errors['email']) ?></small>
