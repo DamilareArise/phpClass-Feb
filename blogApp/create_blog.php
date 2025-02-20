@@ -14,7 +14,7 @@ $title = "";
 $author = '';
 $category = '';
 $content = '';
-
+$image_path = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = mysqli_real_escape_string($conn, $_POST['title']);
@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $category = mysqli_real_escape_string($conn, $_POST['category']);
     $content = mysqli_real_escape_string($conn, $_POST['content']);
     $image = $_FILES['image'];
+   
 
     if(isset($image) && $image['error'] === UPLOAD_ERR_OK ){
         
@@ -33,15 +34,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         else{
             // print_r($image);
-            $image_name = basename($image['name']);
+            $image_name = basename($image['name']); // img.jpeg
             $tmp_name = $image['tmp_name'];
-            $file_ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
-            $new_image_name = 'img' . time() . '.' . $file_ext;
-            echo $new_image_name;
 
+            // $file_ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION)); // To extract the file extension e.g jpeg
+
+            $new_image_name = time().'-'.$image_name;
+            // echo $new_image_name;
+            $image_path = "uploads/".$new_image_name;
+            move_uploaded_file($tmp_name, $image_path);
+    
         }
     }else{
-        $alert = '<div class="alert alert-danger">Error occured while uploading file</div>';
+        $alert = '<div class="alert alert-danger">Error occured while uploading file or no file uuploaded</div>';
         // switch ($_FILES['image']['error']) {
         //     case UPLOAD_ERR_INI_SIZE:
         //         exit('File exceeds the upload_max_filesize limit.');
@@ -58,41 +63,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // }
     }
 
-
-
     // echo $title . ' ' . $author . ' ' . $category . ' ' . $content;
 
-    // if(empty($title)){
-    //     $errors['title']  = 'Title required';
-    // }
-    // else if (empty($author)){
-    //     $errors['author']  = 'Author required';
-    // }
-    // else if (empty($category)){
-    //     $errors['category']  = 'Category required';
-    // }
-    // else if(empty($content)){
-    //     $errors['content']  = 'Content required';
-    // }
-    // else{
+    if(empty($title)){
+        $errors['title']  = 'Title required';
+    }
+    else if (empty($author)){
+        $errors['author']  = 'Author required';
+    }
+    else if (empty($category)){
+        $errors['category']  = 'Category required';
+    }
+    else if(empty($content)){
+        $errors['content']  = 'Content required';
+    }
+    else{
 
-    //     $sql = "INSERT INTO blog(title, author, category, content) VALUES('$title', '$author', '$category', '$content')";
+        $sql = "INSERT INTO blog(title, author, category, content, `image`) VALUES('$title', '$author', '$category', '$content', '$image_path')";
     
-    //     $query = mysqli_query($conn, $sql);
-    //     if($query){
-    //         $alert = '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Blog added successfully!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+        $query = mysqli_query($conn, $sql);
+        if($query){
+            $alert = '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Blog added successfully!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
 
-    //         $title = '';
-    //         $author = '';
-    //         $category = '';
-    //         $content = '';
+            $title = '';
+            $author = '';
+            $category = '';
+            $content = '';
 
-    //     }else{
-    //         echo 'Failed to add blog';
-    //         $alert = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Failed to add blog!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+        }else{
+            echo 'Failed to add blog';
+            $alert = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Failed to add blog!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
 
-    //     }
-    // }
+        }
+    }
 }
 ?>
 

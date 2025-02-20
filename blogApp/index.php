@@ -26,6 +26,16 @@
 
 <?php require 'nav.php' ?>
 
+
+    <style>
+        .card-img-top{
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+        }
+    </style>
+
     <section class="container" style="height: 40dvh;">
         <div class="container col-md-5 h-100 align-content-center">
             <h3 class="text-center">Welcome to MyBlog 👋</h3>
@@ -38,13 +48,14 @@
 
             <div class="blog-card col-md-4 align-content-center">
                 <div class="card m-auto">
-                    <img src="" alt="blog-img" class="card-img-top">
+                    <img src="<?php echo $blog['image'] ?>" alt="blog-img" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $blog['title']; ?></h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">By <?php echo $blog['author']; ?></h6>
                         <p class="card-text mb-1"><?php echo $blog['content'] ?></p>
                         <small class="fw-medium mb-4"><?php echo $blog['date_created'] ?></small>
-                        <a href="#" class="d-block card-link">Read more</a>
+                        
+                        <a href="single_blog.php/?id=<?php echo $blog['id'] ?>" class="d-block card-link">Read more</a>
                     </div>
                 </div>
             </div>
