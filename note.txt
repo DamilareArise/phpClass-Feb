@@ -55,6 +55,7 @@ e.g:
         c. ALTER TABLE blog ADD likes INT;
         d. ALTER TABLE blog DROP COLUMN likes;
         e. ALTER TABLE blog ADD image VARCHAR(255) UNIQUE;
+        ALTER TABLE blog ADD COLUMN favorite BOOL DEFAULT false;
 
 2. DML => Data Manipulation language
     i. INSERT INTO blog_table (title, author, category, content) VALUES('Blog 1', 'author 1', 'category 1', 'content 1');

@@ -22,6 +22,24 @@
         }
 
     }
+
+    if(isset($_GET['id'])){
+        $id = $_GET['id'];
+        $sql = "SELECT * FROM blog WHERE id = $id";
+        $query = mysqli_query($conn, $sql);
+        $blog = mysqli_fetch_assoc($query);
+
+
+        if ($blog['favorite'] == true){
+            $sql = "UPDATE blog SET favorite = false WHERE id = $id";
+            $query = mysqli_query($conn, $sql);
+
+        }else{
+            $sql = "UPDATE blog SET favorite = true WHERE id = $id";
+            $query = mysqli_query($conn, $sql);
+
+        }
+    }
 ?>
 
 <?php require 'nav.php' ?>
@@ -56,6 +74,14 @@
                         <small class="fw-medium mb-4"><?php echo $blog['date_created'] ?></small>
                         
                         <a href="single_blog.php/?id=<?php echo $blog['id'] ?>" class="d-block card-link">Read more</a>
+                        <?php if($blog['favorite'] == true){ ?>
+                            <a href="/phpclass/blogApp/index.php?id=<?php echo $blog['id'] ?>"><p><i class="bi bi-heart-fill text-danger"></i></p></a>
+                        <?php }?>
+                        <?php if($blog['favorite'] ==false){ ?>
+                            <a href="/phpclass/blogApp/index.php?id=<?php echo $blog['id'] ?>"><p><i class="bi bi-heart text-danger"></i></p></a>
+                        <?php }?>
+                         
+                        
                     </div>
                 </div>
             </div>

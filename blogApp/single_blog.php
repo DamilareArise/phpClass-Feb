@@ -1,10 +1,15 @@
 <?php
     // echo $_GET['id']
+    require 'database.php';
 
     if(isset($_GET['id'])){
         $id = $_GET['id'];
         // echo $id;
         
+        $sql = "SELECT * FROM blog WHERE id = $id ";
+        $result = mysqli_query($conn, $sql);
+        $post = mysqli_fetch_assoc($result);
+
     }
 ?>
 
@@ -22,11 +27,11 @@
 
     <section class="container my-5" style="min-height: 40dvh;">
         <div>
-            <img src="" alt="blog-img">
-            <h2>Blog Title</h2>
-            <small>By <b>John Doe</b></small>
-            <p class="mt-3 mb-1">Blog Description</p>
-            <em>date</em>
+            <img src="/phpclass/blogApp/<?php echo $post['image'] ?>" alt="blog-img">
+            <h2><?php echo $post['title']; ?></h2>
+            <small>By <b><?php echo $post['author'] ?> </b></small>
+            <p class="mt-3 mb-1"><?php echo $post['content'] ?></p>
+            <em><?php echo $post['date_created'] ?></em>
             <div class="mt-3">
                 <button class="btn btn-primary">Edit</button>
                 <button class="btn btn-danger">Delete</button>
