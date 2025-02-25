@@ -35,7 +35,7 @@
                             <a class="nav-link" href="#">Pricing</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-primary">Login</a>
+                            <a href="/phpclass/blogApp/login.php" class="btn btn-primary">Login</a>
                         </li>
                     </ul>
                 </div>
