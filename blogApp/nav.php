@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    // echo $_SESSION['user'] ?? 'Not logged in';
+    // print_r($_SESSION);
+    $id = $_SESSION['user'] ?? null;
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,14 +36,16 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/phpclass/blogApp/index.php">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/phpclass/blogApp/create_blog.php">Create Blog</a>
-                        </li>
+                        <?php if($id){ ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/phpclass/blogApp/create_blog.php">Create Blog</a>
+                            </li>
+                        <?php } ?>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Pricing</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/phpclass/blogApp/login.php" class="btn btn-primary">Login</a>
+                            <a href="/phpclass/blogApp/<?php echo $id ? 'logout.php': 'login.php'  ?> " class="btn btn-primary"> <?php echo $id ? 'Logout' : 'Login' ?></a>
                         </li>
                     </ul>
                 </div>

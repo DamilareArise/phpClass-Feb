@@ -1,5 +1,8 @@
-<?php 
+
+<?php require 'nav.php' ?>
+<?php
     require 'database.php';
+
 
     $errors = [
         'email'=>'',
@@ -21,10 +24,11 @@
             $result = mysqli_query($conn, $sql);
             if(mysqli_num_rows($result) === 1){
                 $user = mysqli_fetch_assoc($result);
-                print_r($user);
                 if(password_verify($password, $user['password'])){
-                    // header('Location: index.php');
-                    // exit;
+
+                    $_SESSION['user'] = $user['id'];
+                    header('Location: index.php');
+                    exit;
                 }
                 else{
                     $errors['errMsg'] = 'Invalid email or password';
@@ -38,9 +42,9 @@
 
 ?>
 
+    
 
 
-<?php require 'nav.php' ?>
     <section class="container col-md-4 p-3 my-5 shadow-sm bg-light rounded">
         <h3 class="text-center">Login</h3>
         <small class="text-danger"><?php echo $errors['errMsg'] ?></small>

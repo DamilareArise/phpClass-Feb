@@ -1,3 +1,4 @@
+<?php require 'nav.php' ?>
 <?php
     // require 'getBlog.php';
     require 'database.php';
@@ -40,7 +41,6 @@
     }
 ?>
 
-<?php require 'nav.php' ?>
 
 
     <style>

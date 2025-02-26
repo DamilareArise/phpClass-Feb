@@ -1,5 +1,10 @@
+<?php require 'nav.php' ?>
+
 <?php
 require 'database.php';
+
+$id = $_SESSION['user'] ?? 'not logged in';
+echo $id;
 
 $errors = [
     'title'=>"",
@@ -101,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-<?php require 'nav.php' ?>
+
 <div class="container col-md-5 border border-primary my-5 p-3">
     <form action="" method="POST" enctype="multipart/form-data">
         <?php echo $alert ?>
