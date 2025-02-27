@@ -31,6 +31,7 @@
         $query = mysqli_query($conn, $sql);
         $blog = mysqli_fetch_assoc($query);
 
+
         echo $id;
         if($blog){
             $newfavorite = $blog['favorite']? 0: 1;
@@ -38,6 +39,15 @@
             $query = mysqli_query($conn, $sql);
             header('Location: /phpclass/blogApp/index.php');
         }
+    }
+
+
+    function getUsername($id){
+        require 'database.php';
+        $sql = "SELECT * FROM user_table WHERE id = $id";
+        $query = mysqli_query($conn, $sql);
+        $user = mysqli_fetch_assoc($query);
+        return $user['first_name'] . ' ' . $user['last_name'];
     }
 ?>
 
@@ -67,7 +77,7 @@
                     <img src="<?php echo $blog['image'] ?>" alt="blog-img" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $blog['title']; ?></h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">By <?php echo $blog['author']; ?></h6>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">By <?php echo getUsername($blog['created_by']) ?></h6>
                         <p class="card-text mb-1"><?php echo $blog['content'] ?></p>
                         <small class="fw-medium mb-4"><?php echo $blog['date_created'] ?></small>
                         

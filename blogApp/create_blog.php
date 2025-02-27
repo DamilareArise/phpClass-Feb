@@ -3,12 +3,14 @@
 <?php
 require 'database.php';
 
-$id = $_SESSION['user'] ?? 'not logged in';
-echo $id;
+$id = $_SESSION['user'] ?? null;
+if (!$id) {
+    header('Location: /phpclass/blogApp/login.php');
+}
 
 $errors = [
     'title'=>"",
-    'author'=>"",
+    // 'author'=>"",
     'category'=>'',
     'content'=> ''
 ];
@@ -16,14 +18,14 @@ $errors = [
 $alert =  '';
 
 $title = "";
-$author = '';
+// $author = '';
 $category = '';
 $content = '';
 $image_path = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = mysqli_real_escape_string($conn, $_POST['title']);
-    $author = mysqli_real_escape_string($conn, $_POST['author']);
+    // $author = mysqli_real_escape_string($conn, $_POST['author']);
     $category = mysqli_real_escape_string($conn, $_POST['category']);
     $content = mysqli_real_escape_string($conn, $_POST['content']);
     $image = $_FILES['image'];
@@ -73,9 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(empty($title)){
         $errors['title']  = 'Title required';
     }
-    else if (empty($author)){
-        $errors['author']  = 'Author required';
-    }
+    // else if (empty($author)){
+    //     $errors['author']  = 'Author required';
+    // }
     else if (empty($category)){
         $errors['category']  = 'Category required';
     }
@@ -83,15 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['content']  = 'Content required';
     }
     else{
+        $created_by = $_SESSION['user'];
+        $created_by = mysqli_real_escape_string($conn, $created_by);
 
-        $sql = "INSERT INTO blog(title, author, category, content, `image`) VALUES('$title', '$author', '$category', '$content', '$image_path')";
+        $sql = "INSERT INTO blog(title, created_by, category, content, `image`) VALUES('$title', '$created_by', '$category', '$content', '$image_path')";
     
         $query = mysqli_query($conn, $sql);
         if($query){
             $alert = '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Blog added successfully!</strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
 
             $title = '';
-            $author = '';
             $category = '';
             $content = '';
 
@@ -119,14 +122,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             value="<?php echo ($title); ?>"
         >
         <small class="d-block mb-2 text-danger"> <?php echo htmlspecialchars($errors['title']) ?></small>
-        <input 
+        <!-- <input 
             type="text" 
             placeholder="Author" 
             class="form-control mb-2" 
             name="author"
             value="<?php echo htmlspecialchars($author); ?>"
         > 
-        <small class="d-block mb-2 text-danger"> <?php echo htmlspecialchars($errors['author']) ?> </small>
+        <small class="d-block mb-2 text-danger"> <?php echo htmlspecialchars($errors['author']) ?> </small> -->
         <select 
             name="category" 
             id="" 

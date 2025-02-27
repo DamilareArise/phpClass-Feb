@@ -47,8 +47,11 @@ e.g:
             category VARCHAR(100),
             author VARCHAR(100),
             content TEXT,
-            date_created DATETIME DEFAULT CURRENT_TIMESTAMP
+            created_by INT,
+            date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (created_by) REFERENCES user_table(id) ON DELETE CASCADE
         );
+
     v. TRUNCATE blog_table;
     vi. a. ALTER TABLE blog_table CHANGE author creator VARCHAR(50);
         b. ALTER TABLE blog_table RENAME TO blog;
@@ -56,6 +59,9 @@ e.g:
         d. ALTER TABLE blog DROP COLUMN likes;
         e. ALTER TABLE blog ADD image VARCHAR(255) UNIQUE;
         ALTER TABLE blog ADD COLUMN favorite BOOL DEFAULT false;
+
+        ALTER TABLE blog ADD COLUMN created_by INT DEFAULT 1;
+        ALTER TABLE blog ADD CONSTRAINT fk_blog_created_by FOREIGN KEY (created_by) REFERENCES user_table(id) ON DELETE CASCADE;
 
 2. DML => Data Manipulation language
     i. INSERT INTO blog_table (title, author, category, content) VALUES('Blog 1', 'author 1', 'category 1', 'content 1');
@@ -65,5 +71,4 @@ e.g:
 3. DQL => Data Query Language
     i. SELECT * FROM blog_table;
     ii. SELECT title, author FROM `blog`;
-    iii. SELECT * FROM `blog` WHERE id = 6;
-    iv. SELECT * FROM `blog` WHERE author = 'emmanuel' and id = 6;
+    iii. SELECT * FROM `blog` WHERE id = 6;SELECT * FROM `blog` WHERE author = 'emmanuel' AND id = 6 LIMIT 1;
