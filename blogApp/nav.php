@@ -3,6 +3,8 @@
     // echo $_SESSION['user'] ?? 'Not logged in';
     // print_r($_SESSION);
     $id = $_SESSION['user'] ?? null;
+
+
 ?>
 
 
