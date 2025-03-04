@@ -28,6 +28,7 @@
 
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['is_admin'] = $user['is_admin'];
+                    setcookie('first_name', $user['first_name'], time() + (86400 * 30), "/");
                     header('Location: index.php');
                     exit;
                 }
