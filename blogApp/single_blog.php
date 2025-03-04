@@ -3,8 +3,16 @@
 // echo $_GET['id']
 require 'database.php';
 
+$is_admin = $_SESSION['is_admin'] ?? false;
 
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    // echo $id;
 
+    $sql = "SELECT * FROM blog WHERE id = $id ";
+    $result = mysqli_query($conn, $sql);
+    $post = mysqli_fetch_assoc($result);
+}
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $title = mysqli_real_escape_string($conn, $_POST['title']);
@@ -19,16 +27,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     }else{
         echo "Error updating data";
     }
-}
-
-
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    // echo $id;
-
-    $sql = "SELECT * FROM blog WHERE id = $id ";
-    $result = mysqli_query($conn, $sql);
-    $post = mysqli_fetch_assoc($result);
 }
 
 if (isset($_GET['post_id'])) {
@@ -54,6 +52,7 @@ function getUsername($id)
     return $user['first_name'] . ' ' . $user['last_name'];
 }
 
+
 ?>
 
 <style>
@@ -72,10 +71,12 @@ function getUsername($id)
         <small>By <b><?php echo getUsername($post['created_by']) ?> </b></small>
         <p class="mt-3 mb-1"><?php echo $post['content'] ?></p>
         <em><?php echo $post['date_created'] ?></em>
+        <?php if($is_admin) { ?>
         <div class="mt-3">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal_edit">Edit</button>
             <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
         </div>
+        <?php } ?>
 
         <!-- Delete Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

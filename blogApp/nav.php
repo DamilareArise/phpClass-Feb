@@ -1,8 +1,22 @@
 <?php
     session_start();
+    require 'database.php';
     // echo $_SESSION['user'] ?? 'Not logged in';
     // print_r($_SESSION);
-    $id = $_SESSION['user'] ?? null;
+
+    $is_admin = $_SESSION['is_admin'] ?? false;
+
+    $id = $_SESSION['user_id'] ?? null;
+
+
+    // if ($id) {
+    //     $sql = "SELECT * FROM user_table WHERE id = '$id'";
+    //     $result = mysqli_query($conn, $sql);
+    //     $user = mysqli_fetch_assoc($result);
+    //     if ($user['is_admin'] === true){
+    //         $is_admin = true;
+    //     }
+    // }
 
 
 ?>
@@ -38,7 +52,7 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/phpclass/blogApp/index.php">Home</a>
                         </li>
-                        <?php if($id){ ?>
+                        <?php if($is_admin){ ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="/phpclass/blogApp/create_blog.php">Create Blog</a>
                             </li>
