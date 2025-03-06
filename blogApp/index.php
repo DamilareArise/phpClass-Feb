@@ -6,7 +6,7 @@
     $sql = 'SELECT * FROM blog';
     $query = mysqli_query($conn, $sql);
     $blogs = mysqli_fetch_all($query, MYSQLI_ASSOC);
-
+    
 
 
     $errors = [

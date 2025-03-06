@@ -9,7 +9,7 @@
     $id = $_SESSION['user_id'] ?? null;
 
     $name = $_COOKIE['first_name']?? null;
-    // echo $name;
+    // echo $name
 
 
     // if ($id) {
