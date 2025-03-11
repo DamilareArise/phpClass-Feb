@@ -1,6 +1,8 @@
 <?php
+    session_start();
     // include "../getBlog.php";
     require "../database.php";
+    header("Content-Type: application/json");
 
     if($_SERVER['REQUEST_METHOD'] == 'GET'){
         // $id = $_GET['id'] ?? null;
@@ -26,6 +28,50 @@
                 ]);
             }
         }    
+    }
+    else if($_SERVER["REQUEST_METHOD"] == 'POST'){
+        $payload = file_get_contents("php://input");
+        $payload = json_decode($payload, true);
+
+        if(isset($payload)){
+            $title = $payload['title'] ?? null;
+            $category = $payload['category'] ?? null;
+            $content = $payload['content'] ?? null; 
+            $created_by = $payload['created_by'] ?? null;
+
+            if(empty($title)){
+                echo json_encode([
+                    'message'=> 'Title field is required'
+                    ]);
+                exit;
+            }
+
+
+            // echo $title .' '. $category .' '. $content;
+            $sql = "INSERT INTO blog(title, category, content, created_by) VALUES('$title', '$category', '$content', '$created_by')";
+            $result = mysqli_query($conn, $sql);
+            if($result){
+                echo json_encode(
+                    [
+                        "message" => "Posted successfully",
+                        "status" => true,
+                    ]
+                );
+            }
+            else{
+                echo json_encode([
+                    "message"=> "Error occured while posting",
+                    "status"=> false
+                    ]);
+            }
+        }
+        else{
+            echo json_encode([
+                "message"=> "No payload",
+                "status"=> false
+                ]);
+        }
+        
     }
 
     
