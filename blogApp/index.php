@@ -1,6 +1,6 @@
 <?php require 'nav.php' ?>
 <?php
-    // require 'getBlog.php';
+    require 'getBlog.php';
     require 'database.php';
 
     $sql = 'SELECT * FROM blog';
@@ -49,6 +49,46 @@
         $user = mysqli_fetch_assoc($query);
         return $user['first_name'] . ' ' . $user['last_name'];
     }
+
+    // ADD TO CART FUNCTIONALITY
+    if(isset($_GET['prod_id']) && isset($_GET['index'])){
+        $product_id = $_GET['prod_id'];
+
+        $product = $products[
+            $_GET['index']
+        ];
+
+        $cart = $_SESSION['cart'];
+
+        if(isset($cart[$product_id])){
+            $cart[$product_id]['quantity'] = $cart[$product_id]['quantity'] + 1;
+        }
+
+        else{
+            $cart[$product_id] = [
+                'quantity' => 1,
+                "price" => $product['price'],
+                "title" => $product['title']
+            ];
+
+            $_SESSION['cart'] = $cart;
+            print_r($_SESSION['cart']);
+            header('location: /phpclass/blogApp/index.php');
+        }
+
+                
+        // $cart = [
+        //     $product_id =>[
+        //         'quantity' => 1,
+        //         "price" => 200,
+        //         "name" => "Product 1",
+        //     ], 
+
+        //     ];
+    }
+
+
+
 ?>
 
 
@@ -99,6 +139,30 @@
         </div>
 
     </section>
+
+    <section class="container">
+        <h2 class="text-center mt-4">Our Product</h2>
+        <div>
+            <div class="row">
+                <?php foreach ($products as $index => $product) { ?>
+                <div class="col-md-4">
+                    <div class="container border py-3">
+                        <img src="<?php echo $product['image'] ?>" alt="product-img" class="card-img-top" >
+                        <h5 class="card-title" style="height: 50px;"><?php echo $product['title']; ?></h5>
+                        <p class="card-text mb-1">Price: $<?php echo $product['price'] ?></p>
+                        <a href="/phpclass/blogApp/index.php/?prod_id=<?php echo $product['id'] ?>&?index=<?php echo $index ?>" class="btn btn-primary">Add to cart</a>
+                    </div>
+                </div>
+                <?php } ?> 
+            </div>
+            
+        </div>
+
+    </section>
+
+
+
+
 
     <section class="container my-5" style="min-height: 40dvh;">
             <form action="" method="POST">

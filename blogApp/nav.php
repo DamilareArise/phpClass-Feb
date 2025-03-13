@@ -8,7 +8,15 @@
 
     $id = $_SESSION['user_id'] ?? null;
 
-    $name = $_COOKIE['first_name']?? null;
+    $name = $_COOKIE['first_name'] ?? null;
+
+
+    // Creating a Cart session if not created
+    if(!isset($_SESSION['cart'])){
+        $_SESSION['cart'] = array();
+    }
+    $cart = count($_SESSION['cart']);
+    print_r( $_SESSION['cart']);
     // echo $name
 
 
@@ -61,7 +69,7 @@
                             </li>
                         <?php } ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
+                            <a class="nav-link" href="/phpclass/blogApp/viewCart.php"><i class="bi bi-cart"></i>Cart<span class="badge text-bg-danger ms-1"><?php echo $cart ?></span></a>
                         </li>
                         <li class="nav-item">
                             <a href="/phpclass/blogApp/<?php echo $id ? 'logout.php': 'login.php'  ?> " class="btn btn-primary"> <?php echo $id ? 'Logout' : 'Login' ?></a>
