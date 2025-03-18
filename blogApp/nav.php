@@ -11,12 +11,13 @@
     $name = $_COOKIE['first_name'] ?? null;
 
 
+    // $_SESSION['cart'] = []; 
     // Creating a Cart session if not created
     if(!isset($_SESSION['cart'])){
         $_SESSION['cart'] = array();
     }
     $cart = count($_SESSION['cart']);
-    print_r( $_SESSION['cart']);
+    // print_r( $_SESSION['cart']);
     // echo $name
 
 

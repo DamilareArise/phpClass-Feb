@@ -51,40 +51,38 @@
     }
 
     // ADD TO CART FUNCTIONALITY
+    function actualPrice($index){
+        global $products;
+        return $products[$index]['price'];
+    }
+
+
     if(isset($_GET['prod_id']) && isset($_GET['index'])){
         $product_id = $_GET['prod_id'];
+        $index = $_GET['index'];
 
-        $product = $products[
-            $_GET['index']
-        ];
+        $product = $products[$index];
 
         $cart = $_SESSION['cart'];
 
         if(isset($cart[$product_id])){
-            $cart[$product_id]['quantity'] = $cart[$product_id]['quantity'] + 1;
+            $cart[$product_id]['quantity'] += 1;
+            $cart[$product_id]['price'] = actualPrice($index) * $cart[$product_id]['quantity'];
+            
         }
 
         else{
             $cart[$product_id] = [
+                'product_id'=> $product_id,
                 'quantity' => 1,
                 "price" => $product['price'],
                 "title" => $product['title']
             ];
 
-            $_SESSION['cart'] = $cart;
-            print_r($_SESSION['cart']);
-            header('location: /phpclass/blogApp/index.php');
         }
-
-                
-        // $cart = [
-        //     $product_id =>[
-        //         'quantity' => 1,
-        //         "price" => 200,
-        //         "name" => "Product 1",
-        //     ], 
-
-        //     ];
+        $_SESSION['cart'] = $cart;
+        header('location: /phpclass/blogApp/index.php');
+        exit;
     }
 
 
@@ -114,7 +112,7 @@
 
             <div class="blog-card col-md-4 align-content-center">
                 <div class="card m-auto">
-                    <img src="<?php echo $blog['image'] ?>" alt="blog-img" class="card-img-top">
+                    <img src="/phpclass/blogApp/<?php echo $blog['image'] ?>" alt="blog-img" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $blog['title']; ?></h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">By <?php echo getUsername($blog['created_by']) ?></h6>
@@ -150,7 +148,7 @@
                         <img src="<?php echo $product['image'] ?>" alt="product-img" class="card-img-top" >
                         <h5 class="card-title" style="height: 50px;"><?php echo $product['title']; ?></h5>
                         <p class="card-text mb-1">Price: $<?php echo $product['price'] ?></p>
-                        <a href="/phpclass/blogApp/index.php/?prod_id=<?php echo $product['id'] ?>&?index=<?php echo $index ?>" class="btn btn-primary">Add to cart</a>
+                        <a href="/phpclass/blogApp/index.php/?prod_id=<?php echo $product['id'] ?>&index=<?php echo $index ?>" class="btn btn-primary">Add to cart</a>
                     </div>
                 </div>
                 <?php } ?> 
