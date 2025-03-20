@@ -3,6 +3,7 @@
     // include "../getBlog.php";
     require "../database.php";
     header("Content-Type: application/json");
+    
 
     if($_SERVER['REQUEST_METHOD'] == 'GET'){
         // $id = $_GET['id'] ?? null;

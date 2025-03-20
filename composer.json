@@ -1,0 +1,17 @@
+{
+    "name": "welcome/php-class",
+    "autoload": {
+        "psr-4": {
+            "Welcome\\PhpClass\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Arise Damilare",
+            "email": "arisedamilare5@gmail.com"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^6.11"
+    }
+}
