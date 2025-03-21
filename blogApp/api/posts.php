@@ -3,7 +3,7 @@
     // include "../getBlog.php";
     require "../database.php";
     header("Content-Type: application/json");
-    
+    require 'auth.php';    
 
     if($_SERVER['REQUEST_METHOD'] == 'GET'){
         // $id = $_GET['id'] ?? null;
