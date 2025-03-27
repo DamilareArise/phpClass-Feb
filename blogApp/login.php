@@ -62,8 +62,10 @@
                 <small class="text-danger"><?php echo $errors['password'] ?></small>
             </div>
             <button type="submit" class="btn btn-primary my-2 w-100">Login</button>
-            <div>
+            <div class="d-flex justify-content-between">
                 <a href="/phpclass/blogApp/register.php" class="text-black text-decoration-none ">Don't have an account? Register</a>
+
+                <a href="\phpClass\blogApp\forget_password.php" class="text-black text-decoration-none">Forgot password?</a>
             </div>
         </form>
     </section>
